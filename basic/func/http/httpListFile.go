@@ -3,33 +3,51 @@ package main
 import (
 	"net/http"
 	"os"
-	"io/ioutil"
+	"github.com/zhongliangshan/test/basic/func/http/handlelist"
+	"log"
 )
 
-func errWrapper(writer http.ResponseWriter, request *http.Request) {
-	path := request.URL.Path[len("/list/"):]
+type appHandle func(writer http.ResponseWriter, request *http.Request) error
 
-	file,err := os.Open(path)
+func errWrapper(handle appHandle) func(http.ResponseWriter,*http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
 
-	if err != nil {
-		http.Error(writer , http.StatusText(http.StatusNotFound) , http.StatusNotFound)
-		return
+		err := handle(writer , request)
+
+		if err != nil {
+			log.Printf("Error occurred "+
+				"handling request: %s",
+				err.Error())
+			if userErr , ok  := err.(userError);ok{
+				http.Error(writer,
+					userErr.Message(),
+					http.StatusBadRequest)
+				return
+			}
+			code := http.StatusOK
+			switch {
+			case os.IsNotExist(err):
+				code = http.StatusNotFound
+			case os.IsPermission(err):
+				code = http.StatusForbidden
+			default:
+				code = http.StatusInternalServerError
+			}
+			http.Error(writer , http.StatusText(code) , code)
+		}
 	}
+}
 
-	defer file.Close()
-
-	all , err := ioutil.ReadAll(file)
-
-	if err != nil {
-		http.Error(writer , http.StatusText(http.StatusNotFound) , http.StatusNotFound)
-		return
-	}
-
-	writer.Write(all)
+type userError interface {
+	error
+	Message() string
 }
 
 func main() {
-	http.HandleFunc("/list/" , )
+	http.HandleFunc("/" , errWrapper(handlelist.Handlefunc))
 
-	http.ListenAndServe(":8888" , nil)
+	err := http.ListenAndServe(":8888" , nil)
+	if err != nil {
+		panic(err)
+	}
 }
