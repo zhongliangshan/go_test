@@ -3,17 +3,21 @@ package parser
 import (
 	"regexp"
 	"fmt"
-	"github.com/zhongliangshan/test/crawler/engine"
+
+	"test/crawler/engine"
 )
 
-func ParserCityList(all []byte) engine.Request{
+func ParserCityList(all []byte) engine.ParserResult{
 	re := regexp.MustCompile(`<a\s+href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`)
 	matches := re.FindAllSubmatch(all , -1)
-	request := engine.Request{}
+	result := engine.ParserResult{}
 	for _ , m := range matches {
-		fmt.Printf("URL:%s  Citye: %s\n" , m[1] ,m[2])
+		result.Items = append(result.Items , m[2])
+		result.Requests = append(result.Requests , engine.Request{
+			Url: string(m[1]),
+			ParserFunc:engine.NilRequest,
+		})
 	}
-
-	fmt.Println(len(matches))
+	return result
 
 }

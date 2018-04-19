@@ -1,11 +1,17 @@
 package engine
 
+// 获得的请求集
 type Request struct {
 	Url string
-	ParserFunc func([]byte) ParserRequest,
+	ParserFunc func([]byte) ParserResult
 }
 
-type ParserRequest struct {
+// 结果集
+type ParserResult struct {
 	Item []interface{}
 	Requests []Request
+}
+
+func NilRequest([]byte) ParserResult {
+	return ParserResult{}
 }
