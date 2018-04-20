@@ -1,20 +1,9 @@
 package main
 
 import (
-	"net/http"
-	"io/ioutil"
-	"fmt"
-
-	"test/crawler/engine"
-	"test/crawler/zhenai/parser"
-
-	"golang.org/x/text/transform"
 	//"golang.org/x/text/encoding/simplifiedchinese"
-	"golang.org/x/net/html/charset"
-	"io"
-	"bufio"
-	"golang.org/x/text/encoding"
-	"regexp"
+	"github.com/zhongliangshan/test/crawler/engine"
+	"github.com/zhongliangshan/test/crawler/zhenai/parser"
 )
 
 func main() {
