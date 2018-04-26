@@ -12,7 +12,6 @@ func ParserCityList(all []byte) engine.ParserResult{
 	matches := re.FindAllSubmatch(all , -1)
 
 	result := engine.ParserResult{}
-	limit := 10
 	for _ , m := range matches {
 
 		result.Items = append(result.Items , "City:" + string(m[2]))
@@ -22,10 +21,6 @@ func ParserCityList(all []byte) engine.ParserResult{
 			ParserFunc:ParserCity,
 		})
 
-		limit--
-		if limit <=0 {
-			break
-		}
 
 	}
 	return result

@@ -11,8 +11,11 @@ import (
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding/unicode"
 	"log"
+	"time"
 )
 
+
+var limitRater = time.Tick(time.Millisecond * 100)
 func Fetch(url string)  ([]byte, error) {
 	resp , err :=  http.Get(url)
 	if err != nil {
