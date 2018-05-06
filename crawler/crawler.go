@@ -1,18 +1,27 @@
 package main
 
 import (
-	"zhongliangshan/test/crawler/engine"
-	"zhongliangshan/test/crawler/zhenai/parser"
+	"github.com/zhongliangshan/test/crawler/engine"
+	"github.com/zhongliangshan/test/crawler/scheduler"
+	"github.com/zhongliangshan/test/crawler/zhenai/parser"
 )
 
 func main() {
-	engine.Run(engine.Request{
-		Url:"http://www.zhenai.com/zhenghun",
-		ParserFunc:parser.ParserCityList,
+	//engine.Run(engine.Request{
+	//	Url:        "http://www.zhenai.com/zhenghun",
+	//	ParserFunc: parser.ParserCityList,
+	//})
+	e := engine.ConcurrentScheduler{
+		Scheduler:   &scheduler.Scheduler{},
+		WorkerCount: 10,
+	}
+
+	e.Run(engine.Request{
+		Url:        "http://www.zhenai.com/zhenghun",
+		ParserFunc: parser.ParserCityList,
 	})
-
-
 }
+
 //	resp , err :=  http.Get("http://www.zhenai.com/zhenghun")
 //	if err != nil {
 //		panic(err)
