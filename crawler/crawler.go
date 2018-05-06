@@ -1,20 +1,8 @@
 package main
 
 import (
-	"net/http"
-	"io/ioutil"
-	"fmt"
-
-	"test/crawler/engine"
-	"test/crawler/zhenai/parser"
-
-	"golang.org/x/text/transform"
-	//"golang.org/x/text/encoding/simplifiedchinese"
-	"golang.org/x/net/html/charset"
-	"io"
-	"bufio"
-	"golang.org/x/text/encoding"
-	"regexp"
+	"zhongliangshan/test/crawler/engine"
+	"zhongliangshan/test/crawler/zhenai/parser"
 )
 
 func main() {
@@ -22,6 +10,7 @@ func main() {
 		Url:"http://www.zhenai.com/zhenghun",
 		ParserFunc:parser.ParserCityList,
 	})
+
 
 }
 //	resp , err :=  http.Get("http://www.zhenai.com/zhenghun")

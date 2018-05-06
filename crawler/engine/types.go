@@ -8,7 +8,7 @@ type Request struct {
 
 // 结果集
 type ParserResult struct {
-	Item []interface{}
+	Items []interface{}
 	Requests []Request
 }
 
