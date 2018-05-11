@@ -5,7 +5,7 @@ type ConcurrentScheduler struct {
 	Scheduler Scheduler
 	WorkerCount int
 	// interface 表示可以传递任意类型的值
-	ItemChan chan interface{}
+	ItemChan chan Item
 }
 
 type Scheduler interface {
@@ -41,9 +41,9 @@ func (e *ConcurrentScheduler) Run (seeds ...Request) {
 		// 打印items
 
 		for _ , item :=range result.Items {
-			go func() {
-				e.ItemChan <- item
-			}()
+			go func(i Item) {
+				e.ItemChan <- i
+			}(item)
 		}
 		// 将Requests 加入调度器中
 		for _ , r := range result.Requests {

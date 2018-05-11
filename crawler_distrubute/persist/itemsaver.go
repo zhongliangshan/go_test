@@ -3,11 +3,13 @@ package persist
 import "github.com/zhongliangshan/src/gopkg.in/olivere/elastic.v5"
 
 type ItemService struct {
-
+	Client elastic.Client
+	Index string
 }
 
 
-func Save() {
+func (i *ItemService) Save() {
+	i.Client.Index().Index(i.Index).Type()
 	client, err := elastic.NewClient(elastic.SetSniff(false))
 	if err != nil {
 		return "" , err
