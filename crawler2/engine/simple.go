@@ -33,7 +33,6 @@ func (SimpleScheduler) Run(seeds ...Request)  {
 }
 
 func Worker(r Request) (ParserResult ,error) {
-	log.Printf("start parser Url:%s" , r.Url)
 	body, err := fetcher.Fetch(r.Url)
 	if err != nil {
 		log.Printf("Fetcher Url: %s error : %v" , r.Url , err)

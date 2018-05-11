@@ -12,9 +12,11 @@ import (
 	"golang.org/x/net/html/charset"
 	"log"
 	"golang.org/x/text/encoding/unicode"
+	"time"
 )
-
+var Rartelimiter = time.Tick(time.Millisecond * 100)
 func Fetch(url string) ([]byte, error) {
+	<-Rartelimiter
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil , err

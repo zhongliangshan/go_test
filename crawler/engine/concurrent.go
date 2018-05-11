@@ -1,0 +1,54 @@
+package engine
+
+import "log"
+
+// 定义调度器和线程个数
+type ConcurrentScheduler struct {
+	Scheduler Scheduler
+	WorkerCount int
+}
+
+type Scheduler interface {
+	Submit(r Request)
+	ConfigureMasterWorkerChan(chan Request)
+}
+
+func (s *ConcurrentScheduler) Run(seeds ...Request) {
+	// 创建输入和输出的管道
+	in := make(chan Request)
+	out := make(chan ParserResult)
+	s.Scheduler.ConfigureMasterWorkerChan(in)
+	for _ ,r := range seeds {
+		s.Scheduler.Submit(r)
+	}
+
+	for i :=0 ; i< s.WorkerCount ; i++ {
+		CreateWorker(in , out)
+	}
+
+	for {
+		result := <-out
+		for _ , item := range result.Items {
+			log.Printf("got item %s" , item)
+		}
+
+		for _ , request := range result.Requests {
+			s.Scheduler.Submit(request)
+		}
+
+	}
+}
+
+func CreateWorker(in chan Request , out chan ParserResult) {
+	go func() {
+		for {
+			request := <- in
+			parserResult, err := Worker(request)
+			if err != nil {
+				continue
+			}
+
+			out <- parserResult
+		}
+	}()
+}

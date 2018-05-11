@@ -5,12 +5,14 @@ import (
 	"github.com/zhongliangshan/test/crawler2/engine"
 	"github.com/zhongliangshan/test/crawler2/zhenai/parser"
 	"github.com/zhongliangshan/test/crawler2/scheduler"
+	"github.com/zhongliangshan/test/crawler2/persist"
 )
 
 func main() {
 	e := engine.ConcurrentScheduler{
-		Scheduler:&scheduler.SimpleScheduler{},
+		Scheduler:&scheduler.QueuedScheduler{},
 		WorkerCount:100,
+		ItemChan:persist.ItemSaver(),
 	}
 
 	e.Run(engine.Request{
