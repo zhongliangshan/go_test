@@ -2,7 +2,7 @@ package persist
 
 import "log"
 
-func ItemSaver() chan interface{} {
+func ItemSaver2() chan interface{} {
 	out := make(chan interface{})
 	go func() {
 		itemCount := 0

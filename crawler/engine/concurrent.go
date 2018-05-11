@@ -2,6 +2,7 @@ package engine
 
 import "log"
 
+// 定义调度器和线程个数
 type ConcurrentScheduler struct {
 	Scheduler   Scheduler
 	WorkerCount int
@@ -48,6 +49,7 @@ func (e ConcurrentScheduler) CreateWorker(in chan Request, out chan ParserResult
 			if err != nil {
 				continue
 			}
+
 			out <- parserResult
 		}
 	}()

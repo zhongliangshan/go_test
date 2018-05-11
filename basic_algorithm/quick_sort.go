@@ -2,10 +2,6 @@ package main
 
 import (
 	"fmt"
-	//"math/rand"
-	//"strconv"
-	//"regexp"
-	//"syscall"
 )
 
 func findPos(arr []int , start , end int)int {
@@ -20,17 +16,21 @@ func findPos(arr []int , start , end int)int {
 		start++
 
 	}
-
 	return pos
 }
 
 
-func quick_sort2(arr []int , start , end int)([]int) {
-	if start +1 < end {
+func quickSort2(arr []int , start , end int)([]int) {
+	if start < end {
 		pos := findPos(arr , start , end)
-		quick_sort2(arr , start , pos)
-		quick_sort2(arr , pos+1 , end)
+		if pos != start || pos == end {
+			quickSort2(arr , start , pos)
+			quickSort2(arr , pos , end)
+		}
+
+
 	}
+
 
 	return arr
 }
@@ -42,15 +42,5 @@ func main() {
 	//}
 	fmt.Println(s)
 
-	fmt.Println(quick_sort2(s ,0 , len(s)))
-
-
-	//pat := "/.|,|\"|;|:/"
-	//re, _ := regexp.Compile(pat)
-	//
-	//mark := "asdasdsd"
-	////将匹配到的部分替换为"##.#"
-	//mark = re.ReplaceAllString(mark, "")
-	//fmt.Println(mark)
-
+	fmt.Println(quickSort2(s ,0 , len(s)))
 }

@@ -7,19 +7,21 @@ import (
 )
 
 func main() {
-	//engine.Run(engine.Request{
-	//	Url:        "http://www.zhenai.com/zhenghun",
-	//	ParserFunc: parser.ParserCityList,
+	//engine.SimpleScheduler{}.Run(engine.Request{
+	//	Url:"http://www.zhenai.com/zhenghun",
+	//	ParserFunc:parser.ParserCityList,
 	//})
+
 	e := engine.ConcurrentScheduler{
-		Scheduler:   &scheduler.Scheduler{},
-		WorkerCount: 10,
+		Scheduler:   &scheduler.SimpleScheduler{},
+		WorkerCount: 100,
 	}
 
-	e.Run(engine.Request{
-		Url:        "http://www.zhenai.com/zhenghun",
-		ParserFunc: parser.ParserCityList,
-	})
+	e.Run(
+		engine.Request{
+			Url:        "http://www.zhenai.com/zhenghun",
+			ParserFunc: parser.ParserCityList,
+		})
 }
 
 //	resp , err :=  http.Get("http://www.zhenai.com/zhenghun")

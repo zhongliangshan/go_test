@@ -8,7 +8,14 @@ type Request struct {
 
 type ParserResult struct {
 	Requests []Request
-	Items []interface{} // 定义接口表示随便返回什么值都可以
+	Items []Item // 定义接口表示随便返回什么值都可以
+}
+
+type Item struct {
+	Url     string
+	Type    string
+	Id      string
+	Payload interface{}
 }
 
 func NilParser([]byte) ParserResult {

@@ -25,5 +25,4 @@ func ParserCity(all []byte) engine.ParserResult {
 		})
 
 	}
-	return result
 }
