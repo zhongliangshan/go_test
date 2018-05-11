@@ -2,28 +2,40 @@
 package parser
 
 import (
-	"regexp"
 	"github.com/zhongliangshan/test/crawler2/engine"
+	"regexp"
 )
 
-const cityRe  = `<a href="(http://album.zhenai.com/u/[0-9]+)"[^>]*>([^<]+)</a>`
+var (
+	cityRe     = regexp.MustCompile(`<a href="(http://album.zhenai.com/u/[0-9]+)"[^>]*>([^<]+)</a>`)
+	cityMoreRe = regexp.MustCompile(`<a href="(http://www.zhenai.com/zhenghun/[^"]+)"[^>]*>([^<]+)</a>`)
+)
 
-func ParserCity(all []byte) engine.ParserResult{
-	re := regexp.MustCompile(cityRe)
-	matches := re.FindAllSubmatch(all , -1)
+func ParserCity(all []byte) engine.ParserResult {
+	matches := cityRe.FindAllSubmatch(all, -1)
 
 	result := engine.ParserResult{}
 
-	for _ , m := range matches {
-
-		result.Items = append(result.Items , "User:" + string(m[2]))
-
-		result.Requests = append(result.Requests , engine.Request{
-			Url:string(m[1]),
-			ParserFunc:ParserProfile,
+	for _, m := range matches {
+		name := string(m[2])
+		result.Requests = append(result.Requests, engine.Request{
+			Url: string(m[1]),
+			ParserFunc: func(bytes []byte) engine.ParserResult {
+				return ParserProfile(bytes, name)
+			},
 		})
+
+	}
+
+	cityMoreMatches := cityMoreRe.FindAllSubmatch(all, -1)
+
+	for _, cMM := range cityMoreMatches {
+		result.Requests = append(result.Requests,
+			engine.Request{
+				Url:        string(cMM[1]),
+				ParserFunc: ParserCity,
+			})
 
 	}
 	return result
 }
-

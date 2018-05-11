@@ -2,8 +2,8 @@ package parser
 
 import (
 	"github.com/zhongliangshan/test/crawler2/engine"
-	"regexp"
 	"github.com/zhongliangshan/test/crawler2/model"
+	"regexp"
 	"strconv"
 )
 
@@ -36,9 +36,9 @@ var guessRe = regexp.MustCompile(
 var idUrlRe = regexp.MustCompile(
 	`http://album.zhenai.com/u/([\d]+)`)
 
-func ParserProfile(contents []byte) engine.ParserResult {
+func ParserProfile(contents []byte, name string) engine.ParserResult {
 	profile := model.Profile{}
-
+	profile.Name = name
 	// 数字需要进行转化
 	age, err := strconv.Atoi(
 		extractString(contents, ageRe))
@@ -78,14 +78,25 @@ func ParserProfile(contents []byte) engine.ParserResult {
 		contents, xinzuoRe)
 
 	result := engine.ParserResult{
-		Items:[]interface{}{profile},
+		Items: []interface{}{profile},
+	}
+
+	matches := guessRe.FindAllSubmatch(contents, -1)
+	for _, m := range matches {
+		name := string(m[2])
+		result.Requests = append(result.Requests, engine.Request{
+			Url: string(m[1]),
+			ParserFunc: func(bytes []byte) engine.ParserResult {
+				return ParserProfile(bytes, name)
+			},
+		})
 	}
 
 	return result
 
 }
 
-func extractString(contents []byte , re *regexp.Regexp)string {
+func extractString(contents []byte, re *regexp.Regexp) string {
 	match := re.FindSubmatch(contents)
 	if len(match) >= 2 {
 		return string(match[1])
