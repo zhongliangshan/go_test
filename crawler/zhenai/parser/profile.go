@@ -2,8 +2,13 @@ package parser
 
 import (
 	"github.com/zhongliangshan/test/crawler/engine"
+<<<<<<< HEAD
 	"regexp"
 	"github.com/zhongliangshan/test/crawler2/model"
+=======
+	"github.com/zhongliangshan/test/crawler/model"
+	"regexp"
+>>>>>>> fd473d8fc6f664aece8abcb043166579d4fd1245
 	"strconv"
 )
 
@@ -78,14 +83,22 @@ func ParserProfile(contents []byte) engine.ParserResult {
 		contents, xinzuoRe)
 
 	result := engine.ParserResult{
+<<<<<<< HEAD
 		Items:[]interface{}{profile},
+=======
+		Items: []interface{}{profile},
+>>>>>>> fd473d8fc6f664aece8abcb043166579d4fd1245
 	}
 
 	return result
 
 }
 
+<<<<<<< HEAD
 func extractString(contents []byte , re *regexp.Regexp)string {
+=======
+func extractString(contents []byte, re *regexp.Regexp) string {
+>>>>>>> fd473d8fc6f664aece8abcb043166579d4fd1245
 	match := re.FindSubmatch(contents)
 	if len(match) >= 2 {
 		return string(match[1])
