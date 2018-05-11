@@ -39,7 +39,7 @@ func merge_sort(left , right []int)[]int {
 }
 
 func main() {
-	var s = []int{23, 1, 21, 7, 20, 4, 77, 99, 22, 0}
+	var s =[]int{20, 1, 21, 7, 20, 4, 77, 1, 22, 0}
 	fmt.Println(s)
 	fmt.Println(split(s))
 
