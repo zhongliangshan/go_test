@@ -1,20 +1,22 @@
 package persist
 
-import "github.com/zhongliangshan/src/gopkg.in/olivere/elastic.v5"
+import (
+	"github.com/zhongliangshan/test/crawler2/engine"
+	"github.com/zhongliangshan/test/crawler2/persist"
+	"gopkg.in/olivere/elastic.v5"
+)
 
 type ItemService struct {
-	Client elastic.Client
-	Index string
+	Client *elastic.Client
+	Index  string
 }
 
-
-func (i *ItemService) Save() {
-	i.Client.Index().Index(i.Index).Type()
-	client, err := elastic.NewClient(elastic.SetSniff(false))
+func (i *ItemService) Saver(item engine.Item, result *string) error {
+	err := persist.Save(i.Client, i.Index, item)
 	if err != nil {
-		return "" , err
+		return err
 	}
 
-	response, err := client.Index().Index("profile").Type("zhenai").BodyJson(item).Do(context.Background())
-	return response.Id , nil
+	*result = "ok"
+	return nil
 }

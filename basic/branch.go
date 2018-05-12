@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"regexp"
+	"strconv"
 )
 
 func convertToBin(n int) string {
@@ -17,7 +17,6 @@ func convertToBin(n int) string {
 }
 
 func main() {
-
 	pat := `/.|,|"|'|\\|;|:/`
 	fmt.Println(pat)
 	re, _ := regexp.Compile(pat)

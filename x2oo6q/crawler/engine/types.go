@@ -1,7 +1,5 @@
 package engine
 
-import "imooc.com/ccmouse/learngo/crawler/config"
-
 type ParserFunc func(
 	contents []byte, url string) ParseResult
 
@@ -32,11 +30,6 @@ type NilParser struct{}
 func (NilParser) Parse(
 	_ []byte, _ string) ParseResult {
 	return ParseResult{}
-}
-
-func (NilParser) Serialize() (
-	name string, args interface{}) {
-	return config.NilParser, nil
 }
 
 type FuncParser struct {

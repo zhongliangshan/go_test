@@ -1,7 +1,5 @@
 package engine
 
-import "log"
-
 type ConcurrentScheduler struct {
 	// 定义调度器
 	Scheduler   Scheduler
@@ -12,23 +10,24 @@ type ConcurrentScheduler struct {
 }
 
 type Scheduler interface {
-	WorderIntifery
+	WorkerIntifery
 	Submit(request Request)
 	//// 会改变 Request 里面的内容 所以最好需要用 指针的变量
 	//ConfigureMasterRequest(chan Request)
 
-	WorderChan() chan Request
+	RequestChan() chan Request
+
 	Run()
 }
 
-type WorderIntifery interface {
+type WorkerIntifery interface {
 	WorkerReady(chan Request)
 }
 
 func (e *ConcurrentScheduler) Run(seeds ...Request) {
 	out := make(chan ParserResult)
 	e.Scheduler.Run()
-	in := e.Scheduler.WorderChan()
+	in := e.Scheduler.RequestChan()
 	for i := 0; i < e.WorkerCount; i++ {
 		CreateWorker(in, out, e.Scheduler)
 	}
@@ -70,7 +69,7 @@ func isDuplicate(url string) bool {
 
 }
 
-func CreateWorker(in chan Request, out chan ParserResult, s WorderIntifery) {
+func CreateWorker(in chan Request, out chan ParserResult, s WorkerIntifery) {
 	go func() {
 		for {
 			s.WorkerReady(in)

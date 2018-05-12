@@ -1,9 +1,8 @@
 package engine
 
 import (
+	"github.com/zhongliangshan/test/crawler2/fetcher"
 	"log"
-
-	"imooc.com/ccmouse/learngo/crawler/fetcher"
 )
 
 func Worker(r Request) (ParseResult, error) {
