@@ -2,23 +2,18 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
+
 func main() {
-	//获取本地location
+	var a int
+	var b int
+	var c int
 
-	t, _ := time.Parse(time.RFC3339, "2018-04-13T18:33:00+08:00")
-	timeLayout := "2006-01-02 15:04:05"
-	format := t.Format(timeLayout)
-	fmt.Println(format)
-	//toBeCharge := "2015-01-01 00:00:00"                             //待转化为时间戳的字符串 注意 这里的小时和分钟还要秒必须写 因为是跟着模板走的 修改模板的话也可以不写
-	                           //转化所需模板
-	loc, _ := time.LoadLocation("Local")                            //重要：获取时区
-	theTime, _ := time.ParseInLocation(timeLayout, format, loc) //使用模板在对应时区转化为time.time类型
-	sr := theTime.Unix()                                            //转化为时间戳 类型是int64
-	fmt.Println(theTime)                                            //打印输出theTime 2015-01-01 15:15:00 +0800 CST
-	fmt.Println(sr)                                                 //打印输出时间戳 1420041600
+	a, b = 123, 23
+	c=a/b
 
+	fmt.Println(a, b, c)
 
+	fmt.Printf("%d",b)
 }
