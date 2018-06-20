@@ -1,19 +1,25 @@
 package main
 
 import (
+	"math"
 	"fmt"
 )
 
 
 func main() {
-	var a int
-	var b int
-	var c int
+	a := math.NaN()
 
-	a, b = 123, 23
-	c=a/b
+	if math.IsNaN(a) {
+		fmt.Println("is NAN")
+	} else {
+		fmt.Println(a)
+	}
 
-	fmt.Println(a, b, c)
+	for i:=0 ; i < 2 ;i++ {
+		res := make(map[int]int)
 
-	fmt.Printf("%d",b)
+		res[i]=i
+
+		fmt.Println(res)
+	}
 }
