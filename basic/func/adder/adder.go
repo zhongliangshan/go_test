@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"os/exec"
+)
 
 func adder() func(i int) int{
 	sum := 0
@@ -27,4 +31,22 @@ func main() {
 		s , a = a(i)
 		fmt.Println(s)
 	}
+
+	fmt.Println(os.Getpid() , os.Getppid())
+
+	cmd := exec.Command("echo", "-n", "golang")
+
+	readCloser, err := cmd.StdoutPipe()
+	if err != nil {
+		panic(err)
+	}
+
+	out := make([]byte , 30)
+
+	n, e := readCloser.Read(out)
+	if e != nil {
+		panic(e)
+	}
+
+	fmt.Println(out[:n])
 }

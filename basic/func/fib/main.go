@@ -38,10 +38,5 @@ func main() {
 		fmt.Println(f())
 	}
 
-	printFileContents(f)
-
-
-	str := "23213123,"
-	fmt.Println(strings.Trim(str , ","))
 
 }

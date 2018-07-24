@@ -56,10 +56,34 @@ func main() {
 
 	random := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	for i:=0;i<=n;i++ {
+	for i:=0;i<n;i++ {
 		helper.Root.Insert(i, random.Intn(n) + 1000)
 	}
 
-	fmt.Println(helper.Root.Search(helper.Root.Root , 100))
+
+	//helper.Root.LevelOrder()
+	//node := helper.Root.DelMinNode(helper.Root.Root)
+	//minKey:= helper.Root.FindMinNode(node)
+	//fmt.Println(minKey)
+	//
+	//node2 := helper.Root.DelMaxNode(helper.Root.Root)
+	//maxKey := helper.Root.FindMaxNode(node2)
+	//fmt.Println(maxKey)
+
+	root := helper.Root.Root
+
+	node , _ := helper.Root.Search(root , 100)
+	fmt.Println(node)
+
+
+	root = helper.Root.DelNode(root , 100)
+	node2 , err := helper.Root.Search(root , 100)
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(node2)
+
+	}
+
 
 }
